@@ -10,7 +10,7 @@
 .horizontal-center {
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 75%;
 }
 
 table {
@@ -36,6 +36,30 @@ table tr:hover {
 table th {
   padding-top: 12px;
   padding-bottom: 12px;
-  background-color: #04aa6d;
+  background-color: #34495e;
   color: white;
+}
+
+.input-field {
+  font-size: 18px;
+  border-style: none;
+  border-bottom: solid;
+  border-bottom-color: #34495e;
+  display: block;
+  height: 30px;
+  width: 150px;
+}
+
+.input-label {
+  font-weight: bold;
+}
+
+#form-input {
+  margin-bottom: 20px;
+}
+
+#form-input > div {
+  display: inline-block;
+  margin-right: 10px;
+  color: #34495e;
 }
