@@ -2,14 +2,20 @@
   margin: 0;
   position: absolute;
   top: 50%;
+  width: 100%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+
+.horizontal-center {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 table {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
   text-align: center;
 }
 

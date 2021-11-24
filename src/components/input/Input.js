@@ -21,6 +21,13 @@ export default class Input extends Component {
                 quotation: 0,
                 gain: 0,
                 gainNet: 0,
+            },
+            oneOrTwo: {
+                bet1: 0,
+                bet2: 0,
+                quotation: 0,
+                gain: 0,
+                gainNet: 0,
             }
         };
     }
@@ -84,7 +91,8 @@ export default class Input extends Component {
             this.setState(
                 {
                     oneTwoNoBet: this.calculateNoBet(mise, quotationOne, quotationTwo),
-                    twoOneNoBet: this.calculateNoBet(mise, quotationTwo, quotationOne)
+                    twoOneNoBet: this.calculateNoBet(mise, quotationTwo, quotationOne),
+                    oneOrTwo: this.calculateOneOrTwo(mise, quotationOne, quotationTwo),
                 }
             );
         }
@@ -94,6 +102,20 @@ export default class Input extends Component {
         const bet2 = mise / q2;
         const bet1 = mise - bet2;
         const quotation = bet1 * q1 / mise;
+
+        return {
+            bet1: this.trunc(bet1),
+            bet2: this.trunc(bet2),
+            quotation: this.trunc(quotation),
+            gain: this.trunc(mise * quotation),
+            gainNet: this.trunc(mise * quotation - mise),
+        };
+    }
+
+    calculateOneOrTwo = (mise, q1, q2) => {
+        const bet2 = q2 * mise / (q1 + q2);
+        const bet1 = mise - bet2;
+        const quotation = q1 * q2 / (q1 + q2);
 
         return {
             bet1: this.trunc(bet1),
@@ -123,14 +145,16 @@ export default class Input extends Component {
         return (
             <div className="vertical-center">
                 <form>
-                    <label htmlFor="bet">Mise</label>
-                    <input id="bet" type="text" onChange={this.handleChange} />
-                    <label htmlFor="quotation-1">Cote principale</label>
-                    <input id="quotation-1" type="text" onChange={this.handleChange} />
-                    <label htmlFor="quotation-2">Cote secondaire</label>
-                    <input id="quotation-2" type="text" onChange={this.handleChange} />
+                    <div className="horizontal-center">
+                        <label htmlFor="bet">Mise</label>
+                        <input id="bet" type="text" onChange={this.handleChange} />
+                        <label htmlFor="quotation-1">Cote principale</label>
+                        <input id="quotation-1" type="text" onChange={this.handleChange} />
+                        <label htmlFor="quotation-2">Cote secondaire</label>
+                        <input id="quotation-2" type="text" onChange={this.handleChange} />
+                    </div>
                 </form>
-                <table style={tableStyles}>
+                <table style={tableStyles} className="horizontal-center">
                     <thead>
                         <tr>
                             <th colSpan="1">Pari</th>
@@ -157,6 +181,14 @@ export default class Input extends Component {
                             <td>{state.twoOneNoBet.bet2} €</td>
                             <td>{state.twoOneNoBet.gain} €</td>
                             <td>{state.twoOneNoBet.gainNet} €</td>
+                        </tr>
+                        <tr>
+                            <td>1 ou 2</td>
+                            <td>{state.oneOrTwo.quotation}</td>
+                            <td>{state.oneOrTwo.bet1} €</td>
+                            <td>{state.oneOrTwo.bet2} €</td>
+                            <td>{state.oneOrTwo.gain} €</td>
+                            <td>{state.oneOrTwo.gainNet} €</td>
                         </tr>
                     </tbody>
                 </table>
