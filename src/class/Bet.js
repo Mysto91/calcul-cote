@@ -1,7 +1,8 @@
 export default class Bet {
-	constructor(bet1 = 0, bet2 = 0) {
-		this.bet1 = bet1;
-		this.bet2 = bet2;
+	constructor(title) {
+		this.title = title;
+		this.bet1 = 0;
+		this.bet2 = 0;
 		this.quotation = 0;
 		this.gain = 0;
 		this.gainNet = 0;

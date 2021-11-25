@@ -3,12 +3,12 @@ import ProgressBar from "../progressBar/ProgressBar";
 
 export default class BetRow extends Component {
 	render() {
-		const { betName, quotation, bet1, bet2, probability, gain, gainNet } =
+		const { title, quotation, bet1, bet2, probability, gain, gainNet } =
 			this.props;
 
 		return (
 			<tr>
-				<td>{betName}</td>
+				<td>{title}</td>
 				<td>{quotation}</td>
 				<td>{bet1} €</td>
 				<td>{bet2} €</td>

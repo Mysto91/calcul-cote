@@ -9,9 +9,9 @@ export default class Input extends Component {
 			betValue: 0,
 			quotationOne: 0,
 			quotationTwo: 1,
-			oneTwoNoBet: new Bet(),
-			twoOneNoBet: new Bet(),
-			oneOrTwo: new Bet(),
+			oneTwoNoBet: new Bet("1 remboursé si 2"),
+			twoOneNoBet: new Bet("2 remboursé si 1"),
+			oneOrTwo: new Bet("1 ou 2"),
 		};
 	}
 
@@ -69,7 +69,7 @@ export default class Input extends Component {
 			isNaN(state.quotationTwo) ||
 			isNaN(state.betValue)
 		) {
-			return this.setState(new Bet());
+			return /*this.setState(new Bet())*/;
 		}
 
 		const mise = state.betValue;
@@ -77,12 +77,36 @@ export default class Input extends Component {
 		const quotationTwo = state.quotationTwo;
 
 		this.setState({
-			oneTwoNoBet: this.calculateNoBet(mise, quotationOne, quotationTwo),
-			twoOneNoBet: this.calculateNoBet(mise, quotationTwo, quotationOne),
-			oneOrTwo: this.calculateOneOrTwo(mise, quotationOne, quotationTwo),
+			oneTwoNoBet: this.updateBet(
+				state.oneTwoNoBet.title,
+				this.calculateNoBet(mise, quotationOne, quotationTwo)
+			),
+			twoOneNoBet: this.updateBet(
+				state.twoOneNoBet.title,
+				this.calculateNoBet(mise, quotationTwo, quotationOne)
+			),
+			oneOrTwo: this.updateBet(
+				state.oneOrTwo.title,
+				this.calculateOneOrTwo(mise, quotationOne, quotationTwo)
+			),
 		});
 	};
 
+	/**
+	 *
+	 * @param {String} title
+	 * @param {Object} detail
+	 */
+	updateBet = (title, detail) => ({ ...{ title: title }, ...detail });
+
+	/**
+	 *
+	 * @param {Number}} mise
+	 * @param {Number} q1
+	 * @param {Number} q2
+	 *
+	 * @return {Object}
+	 */
 	calculateNoBet = (mise, q1, q2) => {
 		const bet2 = mise / q2;
 		const bet1 = mise - bet2;
