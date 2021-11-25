@@ -6,6 +6,8 @@ export default class BetRow extends Component {
 		const { title, quotation, bet1, bet2, probability, gain, gainNet } =
 			this.props;
 
+		const positiveGainNet = gainNet >= 0;
+
 		return (
 			<tr>
 				<td>{title}</td>
@@ -16,7 +18,10 @@ export default class BetRow extends Component {
 					<ProgressBar percentage={probability}></ProgressBar>
 				</td>
 				<td>{gain} €</td>
-				<td className={gainNet >= 0 ? "positive" : "negative"}>{gainNet} €</td>
+				<td className={positiveGainNet ? "positive" : "negative"}>
+					{positiveGainNet ? "+" : ""}
+					{gainNet} €
+				</td>
 			</tr>
 		);
 	}

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Bet from "../../class/Bet";
+import { calculateNoBet, calculateOneOrTwo } from "../../util/Calcul";
 import BetTable from "../betTable/BetTable";
 
 export default class Input extends Component {
@@ -69,7 +70,8 @@ export default class Input extends Component {
 			isNaN(state.quotationTwo) ||
 			isNaN(state.betValue)
 		) {
-			return /*this.setState(new Bet())*/;
+			// A gérer
+			return this.setState(new Bet("toto"));
 		}
 
 		const mise = state.betValue;
@@ -79,15 +81,15 @@ export default class Input extends Component {
 		this.setState({
 			oneTwoNoBet: this.updateBet(
 				state.oneTwoNoBet.title,
-				this.calculateNoBet(mise, quotationOne, quotationTwo)
+				calculateNoBet(mise, quotationOne, quotationTwo)
 			),
 			twoOneNoBet: this.updateBet(
 				state.twoOneNoBet.title,
-				this.calculateNoBet(mise, quotationTwo, quotationOne)
+				calculateNoBet(mise, quotationTwo, quotationOne)
 			),
 			oneOrTwo: this.updateBet(
 				state.oneOrTwo.title,
-				this.calculateOneOrTwo(mise, quotationOne, quotationTwo)
+				calculateOneOrTwo(mise, quotationOne, quotationTwo)
 			),
 		});
 	};
@@ -99,95 +101,30 @@ export default class Input extends Component {
 	 */
 	updateBet = (title, detail) => ({ ...{ title: title }, ...detail });
 
-	/**
-	 *
-	 * @param {Number}} mise
-	 * @param {Number} q1
-	 * @param {Number} q2
-	 *
-	 * @return {Object}
-	 */
-	calculateNoBet = (mise, q1, q2) => {
-		const bet2 = mise / q2;
-		const bet1 = mise - bet2;
-		const quotation = (bet1 * q1) / mise;
-		const probability = 1 / quotation;
-
-		return {
-			bet1: this.trunc(bet1),
-			bet2: this.trunc(bet2),
-			quotation: this.trunc(quotation),
-			gain: this.trunc(mise * quotation),
-			gainNet: this.trunc(mise * quotation - mise),
-			probability: this.trunc(probability < 1 ? probability : 1),
-		};
-	};
-
-	calculateOneOrTwo = (mise, q1, q2) => {
-		const bet2 = (q2 * mise) / (q1 + q2);
-		const bet1 = mise - bet2;
-		const quotation = (q1 * q2) / (q1 + q2);
-		const probability = 1 / quotation;
-
-		return {
-			bet1: this.trunc(bet1),
-			bet2: this.trunc(bet2),
-			quotation: this.trunc(quotation),
-			gain: this.trunc(mise * quotation),
-			gainNet: this.trunc(mise * quotation - mise),
-			probability: this.trunc(probability < 1 ? probability : 1),
-		};
-	};
-
-	/**
-	 *
-	 * @param {Number} value
-	 * @param {integer} digit
-	 *
-	 * @return {Number}
-	 */
-	trunc = (value, digit = 2) => (!isNaN(value) ? value.toFixed(digit) : value);
-
 	render() {
 		const state = this.state;
+
+		const inputList = ["bet", "quotation-1", "quotation-2"];
 
 		return (
 			<div className="vertical-center">
 				<form>
 					<div id="form-input" className="horizontal-center">
-						<div>
-							<label htmlFor="bet" className="input-label">
-								Mise{" "}
-							</label>
-							<input
-								id="bet"
-								type="text"
-								className="input-field"
-								onChange={this.handleChange}
-							/>
-						</div>
-						<div>
-							<label htmlFor="quotation-1" className="input-label">
-								Cote principale (1){" "}
-							</label>
-							<input
-								id="quotation-1"
-								type="text"
-								className="input-field"
-								onChange={this.handleChange}
-							/>
-						</div>
-						<div>
-							<label htmlFor="quotation-2" className="input-label">
-								Cote secondaire (2){" "}
-							</label>
-							<input
-								id="quotation-2"
-								type="text"
-								className="input-field"
-								onChange={this.handleChange}
-							/>
-						</div>
+						{inputList.map((input) => {
+							return (
+								<div key={input}>
+									<label htmlFor={input} className="input-label">
+										Cote secondaire (2)
+									</label>
+									<input
+										id={input}
+										type="text"
+										className="input-field"
+										onChange={this.handleChange}
+									/>
+								</div>
+							);
+						})}
 					</div>
 				</form>
 				<BetTable {...state}></BetTable>

@@ -5,6 +5,8 @@ export default class BetTable extends Component {
 	render() {
 		const { oneTwoNoBet, twoOneNoBet, oneOrTwo } = this.props;
 
+		const betList = [oneTwoNoBet, twoOneNoBet, oneOrTwo];
+
 		return (
 			<table className="horizontal-center">
 				<thead>
@@ -19,9 +21,9 @@ export default class BetTable extends Component {
 					</tr>
 				</thead>
 				<tbody>
-					<BetRow betName="1 remboursé si 2" {...oneTwoNoBet}></BetRow>
-					<BetRow betName="2 remboursé si 1" {...twoOneNoBet}></BetRow>
-					<BetRow betName="1 ou 2" {...oneOrTwo}></BetRow>
+					{betList.map((betRow) => (
+						<BetRow key={betRow.title} betName="1 ou 2" {...betRow}></BetRow>
+					))}
 				</tbody>
 			</table>
 		);
