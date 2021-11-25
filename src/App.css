@@ -54,6 +54,14 @@ table th {
   font-weight: bold;
 }
 
+.positive {
+  color: #2ecc71;
+}
+
+.negative {
+  color: #c0392b;
+}
+
 #form-input {
   margin-bottom: 20px;
 }
