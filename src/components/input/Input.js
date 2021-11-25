@@ -104,7 +104,20 @@ export default class Input extends Component {
 	render() {
 		const state = this.state;
 
-		const inputList = ["bet", "quotation-1", "quotation-2"];
+		const inputList = [
+			{
+				id: 'bet',
+				title: 'Mise'
+			},
+			{
+				id: 'quotation-1',
+				title: 'Cote principale (1)'
+			},
+			{
+				id: 'quotation-2',
+				title: 'Cote secondaire (2)'
+			}
+		];
 
 		return (
 			<div className="vertical-center">
@@ -112,12 +125,12 @@ export default class Input extends Component {
 					<div id="form-input" className="horizontal-center">
 						{inputList.map((input) => {
 							return (
-								<div key={input}>
-									<label htmlFor={input} className="input-label">
-										Cote secondaire (2)
+								<div key={input.id}>
+									<label htmlFor={input.id} className="input-label">
+										{input.title}
 									</label>
 									<input
-										id={input}
+										id={input.id}
 										type="text"
 										className="input-field"
 										onChange={this.handleChange}
