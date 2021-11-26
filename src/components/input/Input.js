@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Bet from "../../class/Bet";
 import { calculateNoBet, calculateOneOrTwo } from "../../util/Calcul";
 import BetTable from "../betTable/BetTable";
+import "./Input.css";
 
 export default class Input extends Component {
 	constructor(props) {
@@ -106,17 +107,17 @@ export default class Input extends Component {
 
 		const inputList = [
 			{
-				id: 'bet',
-				title: 'Mise'
+				id: "bet",
+				title: "Mise",
 			},
 			{
-				id: 'quotation-1',
-				title: 'Cote principale (1)'
+				id: "quotation-1",
+				title: "Cote principale (1)",
 			},
 			{
-				id: 'quotation-2',
-				title: 'Cote secondaire (2)'
-			}
+				id: "quotation-2",
+				title: "Cote secondaire (2)",
+			},
 		];
 
 		return (
