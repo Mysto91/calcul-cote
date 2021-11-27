@@ -86,7 +86,7 @@ export default class Input extends Component {
 			),
 			twoOneNoBet: this.updateBet(
 				state.twoOneNoBet.title,
-				calculateNoBet(mise, quotationTwo, quotationOne)
+				calculateNoBet(mise, quotationTwo, quotationOne, true)
 			),
 			oneOrTwo: this.updateBet(
 				state.oneOrTwo.title,
@@ -112,7 +112,7 @@ export default class Input extends Component {
 			},
 			{
 				id: "quotation-1",
-				title: "Cote principale (1)",
+				title: "Cote primaire (1)",
 			},
 			{
 				id: "quotation-2",
