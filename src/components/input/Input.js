@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Bet from "../../class/Bet";
-import { calculateNoBet, calculateOneOrTwo } from "../../util/Calcul";
+import { calculateNoBet, calculateOneOrTwo, float } from "../../util/Calcul";
 import BetTable from "../betTable/BetTable";
 import "./Input.css";
 
@@ -11,14 +11,14 @@ export default class Input extends Component {
 			betValue: 0,
 			quotationOne: 0,
 			quotationTwo: 1,
-			oneTwoNoBet: new Bet("1 remboursé si 2"),
-			twoOneNoBet: new Bet("2 remboursé si 1"),
+			oneTwoNoBet: new Bet("1 R 2"),
+			twoOneNoBet: new Bet("2 R 1"),
 			oneOrTwo: new Bet("1 ou 2"),
 		};
 	}
 
 	handleChange = (event) => {
-		const value = event.target.value;
+		const value = float(event.target.value);
 
 		if (isNaN(value)) {
 			return;
@@ -30,13 +30,13 @@ export default class Input extends Component {
 
 		switch (elementId) {
 			case "quotation-1":
-				state = { quotationOne: parseFloat(value) };
+				state = { quotationOne: value };
 				break;
 			case "quotation-2":
-				state = { quotationTwo: parseFloat(value) };
+				state = { quotationTwo: value };
 				break;
 			case "bet":
-				state = { betValue: parseFloat(value) };
+				state = { betValue: value };
 				break;
 			default:
 				break;
@@ -112,11 +112,11 @@ export default class Input extends Component {
 			},
 			{
 				id: "quotation-1",
-				title: "Cote primaire (1)",
+				title: "Cote 1",
 			},
 			{
 				id: "quotation-2",
-				title: "Cote secondaire (2)",
+				title: "Cote 2",
 			},
 		];
 

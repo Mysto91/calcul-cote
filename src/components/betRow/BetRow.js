@@ -14,7 +14,7 @@ export default class BetRow extends Component {
 				<td>{quotation}</td>
 				<td>{bet1} €</td>
 				<td>{bet2} €</td>
-				<td>
+				<td className="td-responsive">
 					<ProgressBar percentage={probability}></ProgressBar>
 				</td>
 				<td>{gain} €</td>

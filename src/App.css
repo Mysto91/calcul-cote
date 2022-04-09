@@ -1,28 +1,34 @@
 html {
-	background: linear-gradient(#141e30, #243b55);
-	height: 100%;
-	color: white;
+  background: linear-gradient(#141e30, #243b55);
+  height: 100%;
+  color: white;
 }
 
 .vertical-center {
-	margin: 0;
-	position: absolute;
-	top: 50%;
-	width: 100%;
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .horizontal-center {
-	margin-left: auto;
-	margin-right: auto;
-	width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
 }
 
 .positive {
-	color: #2ecc71;
+  color: #2ecc71;
 }
 
 .negative {
-	color: #c0392b;
+  color: #c0392b;
+}
+
+@media screen and (max-width: 660px) {
+  .td-responsive {
+    display: none;
+  }
 }

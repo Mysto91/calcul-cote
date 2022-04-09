@@ -62,3 +62,10 @@ export const calculateOneOrTwo = (mise, q1, q2) => {
  */
 export const trunc = (value, digit = 2) =>
 	!isNaN(value) ? value.toFixed(digit) : value;
+
+/**
+ * @param {String} value
+ *
+ * @returns {Number}
+ */
+export const float = (value) => parseFloat(value.replace(',', '.'));

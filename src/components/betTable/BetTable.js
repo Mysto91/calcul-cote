@@ -14,9 +14,9 @@ export default class BetTable extends Component {
 					<tr>
 						<th colSpan="1">Pari</th>
 						<th colSpan="1">Cote</th>
-						<th colSpan="1">Mise primaire</th>
-						<th colSpan="1">Mise secondaire</th>
-						<th colSpan="1" style={{ width: 400 }}>
+						<th colSpan="1">Mise 1</th>
+						<th colSpan="1">Mise 2</th>
+						<th colSpan="1" className="responsive-title">
 							Probabilité
 						</th>
 						<th colSpan="1">Gain</th>
