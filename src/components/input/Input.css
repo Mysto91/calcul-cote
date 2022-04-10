@@ -9,14 +9,21 @@
 
 .input-field {
   font-size: 18px;
+  text-align: center;
+  outline: none;
   border-style: none;
-  border-bottom: 1px solid white;
+  border-bottom: 2px solid white;
   border-bottom-color: white;
   color: white;
   background: transparent;
   display: block;
   height: 30px;
   width: 150px;
+}
+
+.input-field:focus {
+  border-image: linear-gradient(to right, #11998e, #38ef7d) 1;
+  color: #38ef7d;
 }
 
 .input-label {
@@ -26,8 +33,25 @@
 @media screen and (max-width: 660px) {
   #form-input > div {
     display: block;
+    margin-bottom: 8px;
   }
+
   .input-field {
     width: 100px;
+    height: 25px;
+  }
+
+  .container-label {
+    width: 100px;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 660px) {
+  .container-label {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
   }
 }

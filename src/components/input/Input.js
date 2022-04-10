@@ -9,7 +9,7 @@ export default class Input extends Component {
 		super(props);
 		this.state = {
 			betValue: 0,
-			quotationOne: 0,
+			quotationOne: 1,
 			quotationTwo: 1,
 			oneTwoNoBet: new Bet("1 R 2"),
 			twoOneNoBet: new Bet("2 R 1"),
@@ -127,9 +127,11 @@ export default class Input extends Component {
 						{inputList.map((input) => {
 							return (
 								<div key={input.id}>
-									<label htmlFor={input.id} className="input-label">
-										{input.title}
-									</label>
+									<div className="container-label">
+										<label htmlFor={input.id} className="input-label">
+											{input.title}
+										</label>
+									</div>
 									<input
 										id={input.id}
 										type="text"
