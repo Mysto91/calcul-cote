@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { FormControlLabel, Switch } from "@mui/material";
 import React, { Component } from "react";
 import Bet from "../../class/Bet";
 import { calculateNoBet, calculateOneOrTwo, float } from "../../util/Calcul";
@@ -162,12 +162,17 @@ export default class Input extends Component {
 						})}
 						<FormControlLabel
 							control={
-								<Checkbox
+								<Switch
 									id="bet-boosted"
 									sx={{
-										color: 'white',
-										'&.Mui-checked': {
+										'& .MuiSwitch-switchBase.Mui-checked': {
 											color: 'white',
+											'&hover': {
+												backgroundColor: 'white'
+											}
+										},
+										'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+											backgroundColor: 'white',
 										},
 									}}
 									onChange={this.handleChange}
