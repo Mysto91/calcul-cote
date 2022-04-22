@@ -1,3 +1,4 @@
+import { FormControlLabel, Switch } from "@mui/material";
 import React, { Component } from "react";
 import Bet from "../../class/Bet";
 import { calculateNoBet, calculateOneOrTwo, float } from "../../util/Calcul";
@@ -14,14 +15,26 @@ export default class Input extends Component {
 			oneTwoNoBet: new Bet("1 R 2"),
 			twoOneNoBet: new Bet("2 R 1"),
 			oneOrTwo: new Bet("1 ou 2"),
+			betBoosted: true
 		};
 	}
 
 	handleChange = (event) => {
-		const value = float(event.target.value);
+		const target = event.target;
+		let value = null;
 
-		if (isNaN(value)) {
-			return;
+		if (target.type === 'text') {
+			value = float(target.value);
+
+			if (isNaN(value)) {
+				return;
+			}
+		} else if (target.type === 'checkbox') {
+			value = target.checked;
+		}
+
+		if (value === null) {
+			return
 		}
 
 		const elementId = event.target.id;
@@ -38,6 +51,9 @@ export default class Input extends Component {
 			case "bet":
 				state = { betValue: value };
 				break;
+			case "bet-boosted":
+				state = { betBoosted: value };
+				break;
 			default:
 				break;
 		}
@@ -51,10 +67,12 @@ export default class Input extends Component {
 		if (
 			state.quotationOne !== prevState.quotationOne ||
 			state.quotationTwo !== prevState.quotationTwo ||
-			state.betValue !== prevState.betValue
+			state.betValue !== prevState.betValue ||
+			state.betBoosted !== prevState.betBoosted
 		) {
 			this.setState({
 				betValue: !isNaN(state.betValue) ? state.betValue : 1,
+				betBoosted: state.betBoosted,
 				quotationOne: !isNaN(state.quotationOne) ? state.quotationOne : 0,
 				quotationTwo: !isNaN(state.quotationTwo) ? state.quotationTwo : 0,
 			});
@@ -78,19 +96,20 @@ export default class Input extends Component {
 		const mise = state.betValue;
 		const quotationOne = state.quotationOne;
 		const quotationTwo = state.quotationTwo;
+		const betBoosted = state.betBoosted;
 
 		this.setState({
 			oneTwoNoBet: this.updateBet(
 				state.oneTwoNoBet.title,
-				calculateNoBet(mise, quotationOne, quotationTwo)
+				calculateNoBet(mise, quotationOne, quotationTwo, betBoosted)
 			),
 			twoOneNoBet: this.updateBet(
 				state.twoOneNoBet.title,
-				calculateNoBet(mise, quotationTwo, quotationOne, true)
+				calculateNoBet(mise, quotationTwo, quotationOne, betBoosted, true)
 			),
 			oneOrTwo: this.updateBet(
 				state.oneOrTwo.title,
-				calculateOneOrTwo(mise, quotationOne, quotationTwo)
+				calculateOneOrTwo(mise, quotationOne, quotationTwo, betBoosted)
 			),
 		});
 	};
@@ -141,6 +160,27 @@ export default class Input extends Component {
 								</div>
 							);
 						})}
+						<FormControlLabel
+							control={
+								<Switch
+									id="bet-boosted"
+									sx={{
+										'& .MuiSwitch-switchBase.Mui-checked': {
+											color: 'white',
+											'&hover': {
+												backgroundColor: 'white'
+											}
+										},
+										'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+											backgroundColor: 'white',
+										},
+									}}
+									onChange={this.handleChange}
+									defaultChecked
+								/>
+							}
+							label="Cote boostée"
+						/>
 					</div>
 				</form>
 				<BetTable {...state}></BetTable>

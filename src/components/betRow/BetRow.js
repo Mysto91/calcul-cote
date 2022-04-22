@@ -7,22 +7,23 @@ export default class BetRow extends Component {
 			this.props;
 
 		const positiveGainNet = gainNet >= 0;
+		const titleId = title.replaceAll(' ', '');
 
 		return (
 			<tr>
 				<td>{title}</td>
-				<td>{quotation}</td>
-				<td>{bet1} €</td>
-				<td>{bet2} €</td>
+				<td id={`quotation-${titleId}`}>{quotation}</td>
+				<td id={`bet1-${titleId}`}>{bet1} €</td>
+				<td id={`bet2-${titleId}`}>{bet2} €</td>
 				<td className="td-responsive">
 					<ProgressBar percentage={probability}></ProgressBar>
 				</td>
-				<td>{gain} €</td>
-				<td className={positiveGainNet ? "positive" : "negative"}>
+				<td id={`gain-${titleId}`}>{gain} €</td>
+				<td id={`gain-net-${titleId}`} className={positiveGainNet ? "positive" : "negative"}>
 					{positiveGainNet ? "+" : ""}
 					{gainNet} €
 				</td>
-			</tr>
+			</tr >
 		);
 	}
 }
