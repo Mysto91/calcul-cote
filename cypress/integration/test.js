@@ -26,6 +26,60 @@ describe('Test the home page', () => {
         cy.get('#gain-net-1ou2').contains("2.00 €");
     })
 
+    it('Test with boosted bet with bet1 < bet2', () => {
+        cy.visit(Cypress.env('host'));
+
+        cy.get('#bet-boosted').should('be.checked');
+        cy.get('#bet').type('10');
+        cy.get('#quotation-1').type('2.25');
+        cy.get('#quotation-2').type('2.50');
+
+        cy.get('#quotation-1R2').contains("1.35");
+        cy.get('#bet1-1R2').contains("10.00 €");
+        cy.get('#bet2-1R2').contains("6.67 €");
+        cy.get('#gain-1R2').contains("22.50 €");
+        cy.get('#gain-net-1R2').contains("5.83 €");
+
+        cy.get('#quotation-2R1').contains("1.39");
+        cy.get('#bet1-2R1').contains("10.00 €");
+        cy.get('#bet2-2R1').contains("12.50 €");
+        cy.get('#gain-2R1').contains("31.25 €");
+        cy.get('#gain-net-2R1').contains("8.75 €");
+
+        cy.get('#quotation-1ou2').contains("1.18");
+        cy.get('#bet1-1ou2').contains("10.00 €");
+        cy.get('#bet2-1ou2').contains("9.00 €");
+        cy.get('#gain-1ou2').contains("22.50 €");
+        cy.get('#gain-net-1ou2').contains("3.50 €");
+    })
+
+    it('Test with boosted bet with bet1 > bet2', () => {
+        cy.visit(Cypress.env('host'));
+
+        cy.get('#bet-boosted').should('be.checked');
+        cy.get('#bet').type('10');
+        cy.get('#quotation-1').type('2.35');
+        cy.get('#quotation-2').type('2.15');
+
+        cy.get('#quotation-1R2').contains("1.26");
+        cy.get('#bet1-1R2').contains("10.00 €");
+        cy.get('#bet2-1R2').contains("8.70 €");
+        cy.get('#gain-1R2').contains("23.50 €");
+        cy.get('#gain-net-1R2').contains("4.80 €");
+
+        cy.get('#quotation-2R1').contains("1.24");
+        cy.get('#bet1-2R1').contains("10.00 €");
+        cy.get('#bet2-2R1').contains("13.50 €");
+        cy.get('#gain-2R1').contains("29.03 €");
+        cy.get('#gain-net-2R1').contains("5.53 €");
+
+        cy.get('#quotation-1ou2').contains("1.12");
+        cy.get('#bet1-1ou2').contains("10.00 €");
+        cy.get('#bet2-1ou2').contains("10.93 €");
+        cy.get('#gain-1ou2').contains("23.50 €");
+        cy.get('#gain-net-1ou2').contains("2.57 €");
+    })
+
     it('Test with basic bet', () => {
         cy.visit(Cypress.env('host'));
 
@@ -54,5 +108,35 @@ describe('Test the home page', () => {
         cy.get('#bet2-1ou2').contains("5.05 €");
         cy.get('#gain-1ou2').contains("11.37 €");
         cy.get('#gain-net-1ou2').contains("1.37 €");
+    })
+
+    it('Test with basic bet with bet1 = bet2', () => {
+        cy.visit(Cypress.env('host'));
+
+        cy.get('#bet-boosted')
+            .should('be.checked')
+            .click({ force: true });
+
+        cy.get('#bet').type('10');
+        cy.get('#quotation-1').type('2.10');
+        cy.get('#quotation-2').type('2.10');
+
+        cy.get('#quotation-1R2').contains("1.10");
+        cy.get('#bet1-1R2').contains("5.24 €");
+        cy.get('#bet2-1R2').contains("4.76 €");
+        cy.get('#gain-1R2').contains("11.00 €");
+        cy.get('#gain-net-1R2').contains("1.00 €");
+
+        cy.get('#quotation-2R1').contains("1.10");
+        cy.get('#bet1-2R1').contains("4.76 €");
+        cy.get('#bet2-2R1').contains("5.24 €");
+        cy.get('#gain-2R1').contains("11.00 €");
+        cy.get('#gain-net-2R1').contains("1.00 €");
+
+        cy.get('#quotation-1ou2').contains("1.05");
+        cy.get('#bet1-1ou2').contains("5.00 €");
+        cy.get('#bet2-1ou2').contains("5.00 €");
+        cy.get('#gain-1ou2').contains("10.50 €");
+        cy.get('#gain-net-1ou2').contains("0.50 €");
     })
 })

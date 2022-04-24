@@ -8,23 +8,20 @@
  * @return {Object}
  */
 export const calculateNoBet = (mise, q1, q2, boosted, reverse = false) => {
-	let bet1, bet2;
+	let bet1, bet2, quotationRef;
 
 	if (boosted) {
 		bet1 = 10;
-		bet2 = bet1 / (q2 - 1);
+		bet2 = reverse ? bet1 * (q2 - 1) : bet1 / (q2 - 1);
 		mise = bet1 + bet2;
+		quotationRef = (reverse ? bet2 : bet1) * q1;
 	} else {
 		bet2 = mise / q2;
 		bet1 = mise - bet2;
+		quotationRef = (bet1 * q1);
 	}
 
-	//b1 = 10
-	//q1 et q2
-	// b1 * q1 = 10 * 2 = 20 € -> gain
-	// b2 ? b1 + b2 = b2 * q2 => b1 = b2 * q2 - b2 => b2 = b1 / (q2 - 1)
-
-	const quotation = (bet1 * q1) / mise;
+	const quotation = quotationRef / mise;
 	const probability = 1 / quotation;
 
 	let output = {
@@ -36,7 +33,7 @@ export const calculateNoBet = (mise, q1, q2, boosted, reverse = false) => {
 		probability: trunc(probability < 1 ? probability : 1),
 	};
 
-	if (reverse) {
+	if (reverse && !boosted) {
 		output.bet1 = trunc(bet2);
 		output.bet2 = trunc(bet1);
 	}
