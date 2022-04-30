@@ -91,3 +91,10 @@ export const trunc = (value, digit = 2) =>
  * @returns {Number}
  */
 export const float = (value) => parseFloat(value.replace(',', '.'));
+
+/**
+ * @param {String} value
+ * 
+ * @returns {Boolean}
+ */
+export const isNumber = (value) => !isNaN(parseFloat(value)) && isFinite(value);

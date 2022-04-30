@@ -1,7 +1,7 @@
 import { FormControlLabel, Switch } from "@mui/material";
 import React, { Component } from "react";
 import Bet from "../../class/Bet";
-import { calculateNoBet, calculateOneOrTwo, float } from "../../util/Calcul";
+import { calculateNoBet, calculateOneOrTwo, float, isNumber } from "../../util/Calcul";
 import BetTable from "../betTable/BetTable";
 import "./Input.css";
 
@@ -9,9 +9,9 @@ export default class Input extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			betValue: 0,
-			quotationOne: 1,
-			quotationTwo: 1,
+			betValue: null,
+			quotationOne: null,
+			quotationTwo: null,
 			oneTwoNoBet: new Bet("1 R 2"),
 			twoOneNoBet: new Bet("2 R 1"),
 			oneOrTwo: new Bet("1 ou 2"),
@@ -23,18 +23,15 @@ export default class Input extends Component {
 		const target = event.target;
 		let value = null;
 
-		if (target.type === 'text') {
-			value = float(target.value);
-
-			if (isNaN(value)) {
-				return;
-			}
-		} else if (target.type === 'checkbox') {
-			value = target.checked;
-		}
-
-		if (value === null) {
-			return
+		switch (target.type) {
+			case 'text':
+				value = float(target.value);
+				break;
+			case 'checkbox':
+				value = target.checked;
+				break;
+			default:
+				break;
 		}
 
 		const elementId = event.target.id;
@@ -81,16 +78,26 @@ export default class Input extends Component {
 		}
 	}
 
+	isValidInputs = () => {
+		const state = this.state;
+		if (
+			!isNumber(state.quotationOne) ||
+			!isNumber(state.quotationTwo) ||
+			!isNumber(state.betValue) ||
+			state.quotationOne === 0 ||
+			state.quotationTwo === 0 ||
+			state.quotationTwo === 1
+		) {
+			return false;
+		}
+		return true;
+	}
+
 	updateResult = () => {
 		const state = this.state;
 
-		if (
-			isNaN(state.quotationOne) ||
-			isNaN(state.quotationTwo) ||
-			isNaN(state.betValue)
-		) {
-			// A gérer
-			return this.setState(new Bet("toto"));
+		if (!this.isValidInputs()) {
+			return;
 		}
 
 		const mise = state.betValue;
@@ -156,6 +163,7 @@ export default class Input extends Component {
 										type="text"
 										className="input-field"
 										onChange={this.handleChange}
+										maxLength="8"
 									/>
 								</div>
 							);
