@@ -4,7 +4,7 @@ import "./BetTable.css";
 
 export default class BetTable extends Component {
 	render() {
-		const { oneTwoNoBet, twoOneNoBet, oneOrTwo } = this.props;
+		const { oneTwoNoBet, twoOneNoBet, oneOrTwo, betBoosted } = this.props;
 
 		const betList = [oneTwoNoBet, twoOneNoBet, oneOrTwo];
 
@@ -14,7 +14,7 @@ export default class BetTable extends Component {
 					<tr>
 						<th colSpan="1">Pari</th>
 						<th colSpan="1">Cote</th>
-						<th colSpan="1">Mise 1</th>
+						<th colSpan="1">Mise 1 {betBoosted ? 'boostée' : ''}</th>
 						<th colSpan="1">Mise 2</th>
 						<th colSpan="1" className="responsive-title">
 							Probabilité

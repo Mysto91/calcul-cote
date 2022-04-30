@@ -68,10 +68,10 @@ export default class Input extends Component {
 			state.betBoosted !== prevState.betBoosted
 		) {
 			this.setState({
-				betValue: !isNaN(state.betValue) ? state.betValue : 1,
+				betValue: isNumber(state.betValue) ? state.betValue : 0,
 				betBoosted: state.betBoosted,
-				quotationOne: !isNaN(state.quotationOne) ? state.quotationOne : 0,
-				quotationTwo: !isNaN(state.quotationTwo) ? state.quotationTwo : 0,
+				quotationOne: isNumber(state.quotationOne) ? state.quotationOne : 0,
+				quotationTwo: isNumber(state.quotationTwo) ? state.quotationTwo : 0,
 			});
 
 			this.updateResult();
@@ -83,13 +83,19 @@ export default class Input extends Component {
 		if (
 			!isNumber(state.quotationOne) ||
 			!isNumber(state.quotationTwo) ||
-			!isNumber(state.betValue) ||
 			state.quotationOne === 0 ||
 			state.quotationTwo === 0 ||
 			state.quotationTwo === 1
 		) {
 			return false;
 		}
+
+		const betValue = state.betValue;
+
+		if (!state.betBoosted && (!isNumber(betValue) || betValue === 0)) {
+			return false
+		}
+
 		return true;
 	}
 
@@ -134,11 +140,11 @@ export default class Input extends Component {
 		const inputList = [
 			{
 				id: "bet",
-				title: "Mise",
+				title: `Mise ${state.betBoosted ? 'cote boostée' : 'totale'}`,
 			},
 			{
 				id: "quotation-1",
-				title: "Cote 1",
+				title: `Cote 1 ${state.betBoosted ? 'boostée' : ''}`,
 			},
 			{
 				id: "quotation-2",

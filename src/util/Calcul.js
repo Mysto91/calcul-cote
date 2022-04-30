@@ -11,7 +11,7 @@ export const calculateNoBet = (mise, q1, q2, boosted, reverse = false) => {
 	let bet1, bet2, quotationRef;
 
 	if (boosted) {
-		bet1 = 10;
+		bet1 = mise !== 0 ? mise : 10;
 		bet2 = reverse ? bet1 * (q2 - 1) : bet1 / (q2 - 1);
 		mise = bet1 + bet2;
 		quotationRef = (reverse ? bet2 : bet1) * q1;
@@ -54,7 +54,7 @@ export const calculateOneOrTwo = (mise, q1, q2, boosted = false) => {
 	let bet1, bet2;
 
 	if (boosted) {
-		bet1 = 10;
+		bet1 = mise !== 0 ? mise : 10;
 		mise = bet1 * (q1 + q2) / q2;
 		bet2 = mise - bet1;
 	} else {

@@ -23,12 +23,9 @@ export default class ProgressBar extends Component {
 				<span
 					className="progress-bar"
 					style={{ width: percentage + "%" }}
-				></span>
-				{percentage < 100 && (
-					<span className="percentage">
-						{percentage.toString().split(".")[0] + "%"}
-					</span>
-				)}
+				>
+					{percentage.toString().split(".")[0] + "%"}
+				</span>
 			</div>
 		);
 	}
