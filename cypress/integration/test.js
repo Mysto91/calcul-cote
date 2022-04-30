@@ -1,9 +1,39 @@
-describe('Test the home page', () => {
-    it('Test with boosted bet', () => {
+describe('Test the boosted bet', () => {
+    it('Test nominal', () => {
         cy.visit(Cypress.env('host'));
 
         cy.get('#bet-boosted').should('be.checked');
-        cy.get('#bet').type('10');
+        cy.get('#form-input').contains('Mise cote boostée');
+        cy.get('#form-input').contains('Cote 1 boostée');
+        cy.get('#form-input').contains('Cote 2');
+
+        cy.get('#bet').type('20');
+        cy.get('#quotation-1').type('2');
+        cy.get('#quotation-2').type('2.50');
+
+        cy.get('#quotation-1R2').contains("1.20");
+        cy.get('#bet1-1R2').contains("20.00 €");
+        cy.get('#bet2-1R2').contains("13.33 €");
+        cy.get('#gain-1R2').contains("40.00 €");
+        cy.get('#gain-net-1R2').contains("6.67 €");
+
+        cy.get('#quotation-2R1').contains("1.25");
+        cy.get('#bet1-2R1').contains("20.00 €");
+        cy.get('#bet2-2R1').contains("20.00 €");
+        cy.get('#gain-2R1').contains("50.00 €");
+        cy.get('#gain-net-2R1').contains("10.00 €");
+
+        cy.get('#quotation-1ou2').contains("1.11");
+        cy.get('#bet1-1ou2').contains("20.00 €");
+        cy.get('#bet2-1ou2').contains("16.00 €");
+        cy.get('#gain-1ou2').contains("40.00 €");
+        cy.get('#gain-net-1ou2').contains("4.00 €");
+    })
+
+    it('Test without specified bet', () => {
+        cy.visit(Cypress.env('host'));
+
+        cy.get('#bet-boosted').should('be.checked');
         cy.get('#quotation-1').type('2');
         cy.get('#quotation-2').type('2.50');
 
@@ -26,7 +56,7 @@ describe('Test the home page', () => {
         cy.get('#gain-net-1ou2').contains("2.00 €");
     })
 
-    it('Test with boosted bet with bet1 < bet2', () => {
+    it('Test with bet1 < bet2', () => {
         cy.visit(Cypress.env('host'));
 
         cy.get('#bet-boosted').should('be.checked');
@@ -53,7 +83,7 @@ describe('Test the home page', () => {
         cy.get('#gain-net-1ou2').contains("3.50 €");
     })
 
-    it('Test with boosted bet with bet1 > bet2', () => {
+    it('Test with bet1 > bet2', () => {
         cy.visit(Cypress.env('host'));
 
         cy.get('#bet-boosted').should('be.checked');
@@ -79,13 +109,19 @@ describe('Test the home page', () => {
         cy.get('#gain-1ou2').contains("23.50 €");
         cy.get('#gain-net-1ou2').contains("2.57 €");
     })
+})
 
-    it('Test with basic bet', () => {
+describe('Test the basic bet', () => {
+    it('Test nominal', () => {
         cy.visit(Cypress.env('host'));
 
         cy.get('#bet-boosted')
             .should('be.checked')
             .click({ force: true });
+
+        cy.get('#form-input').contains('Mise totale');
+        cy.get('#form-input').contains('Cote 1');
+        cy.get('#form-input').contains('Cote 2');
 
         cy.get('#bet').type('10');
         cy.get('#quotation-1').type('2.30');
@@ -110,7 +146,7 @@ describe('Test the home page', () => {
         cy.get('#gain-net-1ou2').contains("1.37 €");
     })
 
-    it('Test with basic bet with bet1 = bet2', () => {
+    it('Test with bet1 = bet2', () => {
         cy.visit(Cypress.env('host'));
 
         cy.get('#bet-boosted')
