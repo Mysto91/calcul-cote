@@ -1,6 +1,4 @@
 - Ajouter un bouton d'inversions des valeurs (faible utilité)
-- Remplace "Infinity" par "NA" ou "-"
-- Corriger le dépassement de la barre de probabilité (valeur déborde)
-- Prendre en compte la valeur de mise dans la cote boostée au lieu de 10 (mettre 10 si aucune valeur renseignée)
-- Rendre le champ "mise" facultatif si "cote boostée" est sélectionné
 - Quand des api bookmakers seront développées, faire appel à des apis temps réels pour avoir les cotes
+- Ajouter un placeholder dans mise cote boostée quand le le slider est actif (10€ par défaut)
+- Mettre la couleur dorée sur cote 1 boostée

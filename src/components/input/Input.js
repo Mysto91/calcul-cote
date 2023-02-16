@@ -4,6 +4,8 @@ import Bet from "../../class/Bet";
 import { calculateNoBet, calculateOneOrTwo, float, isNumber } from "../../util/Calcul";
 import BetTable from "../betTable/BetTable";
 import "./Input.css";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 export default class Input extends Component {
 	constructor(props) {
@@ -156,24 +158,41 @@ export default class Input extends Component {
 			<div className="vertical-center">
 				<form>
 					<div id="form-input" className="horizontal-center">
-						{inputList.map((input) => {
-							return (
-								<div key={input.id}>
-									<div className="container-label">
-										<label htmlFor={input.id} className="input-label">
-											{input.title}
-										</label>
-									</div>
-									<input
+						<Box
+							component="form"
+							sx={{
+								borderColor: 'white',
+								'& .MuiTextField-root': { 
+									m: 1, 
+									width: '25ch'
+								},
+							}}
+							noValidate
+							autoComplete="off"
+						>
+							{inputList.map((input) => {
+								return (
+									<TextField
+										key={input.id}
 										id={input.id}
-										type="text"
-										className="input-field"
+										label={input.title}
+										sx={{
+											label: {
+												color: 'white',
+												borderColor: 'white',
+											},
+											div: {
+												color: 'white',
+												borderColor: 'white',
+											}
+										}}
+										size="small"
 										onChange={this.handleChange}
 										maxLength="8"
 									/>
-								</div>
-							);
-						})}
+								);
+							})}
+						</Box>
 						<FormControlLabel
 							control={
 								<Switch

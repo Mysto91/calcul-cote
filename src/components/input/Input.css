@@ -8,11 +8,8 @@
 }
 
 .input-field {
-  font-size: 18px;
   text-align: center;
   outline: none;
-  border-style: none;
-  border-bottom: 2px solid white;
   border-bottom-color: white;
   color: white;
   background: transparent;
