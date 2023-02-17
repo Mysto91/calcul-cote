@@ -27,28 +27,26 @@
   font-size: 18px;
 }
 
-@media screen and (max-width: 660px) {
+#form-input {
+  display: flex;
+  justify-content: center;
+    align-items: center;
+  border-color: 'white';
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1080px) {
+  #form-input {
+    flex-direction: column;
+  }
+
   #form-input > div {
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  .input-field {
-    width: 100px;
-    height: 25px;
-  }
-
-  .container-label {
-    width: 100px;
-    text-align: center;
+    margin-top: 20px;
   }
 }
 
-@media screen and (min-width: 660px) {
-  .container-label {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-  }
+@media screen and (min-width: 1080px) {
+  #form-input {
+      flex-direction: row;
+    }
 }

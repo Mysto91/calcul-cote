@@ -7,6 +7,29 @@ import "./Input.css";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
+const textFieldStyles = {
+	notchedOutline: {
+		border: "2px solid",
+		borderColor: "white",
+	},
+	focusedNotchedOutline: {
+		borderColor: "#38ef7d",
+		color: "red",
+	},
+	inputLabel: {
+		color: 'white',
+		'&.Mui-focused': {
+			color: '#38ef7d',
+		}
+	},
+	inputBase: {
+		color: 'white',
+	},
+	notchedOutlineHover: {
+		borderColor: "#38ef7d",
+	}
+};
+
 export default class Input extends Component {
 	constructor(props) {
 		super(props);
@@ -156,66 +179,53 @@ export default class Input extends Component {
 
 		return (
 			<div className="vertical-center">
-				<form>
-					<div id="form-input" className="horizontal-center">
-						<Box
-							component="form"
-							sx={{
-								borderColor: 'white',
-								'& .MuiTextField-root': { 
-									m: 1, 
-									width: '25ch'
-								},
-							}}
-							noValidate
-							autoComplete="off"
-						>
-							{inputList.map((input) => {
-								return (
-									<TextField
-										key={input.id}
-										id={input.id}
-										label={input.title}
-										sx={{
-											label: {
-												color: 'white',
-												borderColor: 'white',
-											},
-											div: {
-												color: 'white',
-												borderColor: 'white',
-											}
-										}}
-										size="small"
-										onChange={this.handleChange}
-										maxLength="8"
-									/>
-								);
-							})}
-						</Box>
-						<FormControlLabel
-							control={
-								<Switch
-									id="bet-boosted"
-									sx={{
-										'& .MuiSwitch-switchBase.Mui-checked': {
-											color: 'white',
-											'&hover': {
-												backgroundColor: 'white'
-											}
-										},
-										'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-											backgroundColor: 'white',
-										},
-									}}
-									onChange={this.handleChange}
-									defaultChecked
-								/>
-							}
-							label="Cote boostée"
-						/>
-					</div>
-				</form>
+				<Box
+					id="form-input"
+					component="form"
+					noValidate
+					autoComplete="off"
+				>
+					{inputList.map((input) => {
+						return (
+							<TextField
+								key={input.id}
+								id={input.id}
+								label={input.title}
+								sx={{
+									'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': textFieldStyles.notchedOutline,
+									'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': textFieldStyles.focusedNotchedOutline,
+									'& .MuiInputLabel-root': textFieldStyles.inputLabel,
+									'& .MuiInputBase-input': textFieldStyles.inputBase,
+									'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': textFieldStyles.notchedOutlineHover,
+								}}
+								size="small"
+								onChange={this.handleChange}
+								maxLength="8"
+							/>
+						);
+					})}
+					<FormControlLabel
+						control={
+							<Switch
+								id="bet-boosted"
+								sx={{
+									'& .MuiSwitch-switchBase.Mui-checked': {
+										color: 'white',
+										'&hover': {
+											backgroundColor: 'white'
+										}
+									},
+									'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+										backgroundColor: 'white',
+									},
+								}}
+								onChange={this.handleChange}
+								defaultChecked
+							/>
+						}
+						label="Cote boostée"
+					/>
+				</Box>
 				<BetTable {...state}></BetTable>
 			</div>
 		);
