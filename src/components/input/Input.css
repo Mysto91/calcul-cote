@@ -10,6 +10,10 @@
   width: 200px;
 }
 
+.form-control-label > span {
+    font-family: monospace;
+}
+
 @media screen and (max-width: 1080px) {
   #form-input {
     flex-direction: column;

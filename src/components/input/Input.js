@@ -18,6 +18,7 @@ const styles = {
 			color: "red",
 		},
 		inputLabel: {
+			fontFamily: 'monospace',
 			color: 'white',
 			'&.Mui-focused': {
 				color: '#38ef7d',
@@ -203,6 +204,7 @@ export default class Input extends Component {
 								inputProps={{ 
 									style: { 
 										textAlign: 'center',
+										fontFamily: 'monospace'
 									}
 								}}
 								size="small"
@@ -212,6 +214,7 @@ export default class Input extends Component {
 						);
 					})}
 					<FormControlLabel
+						className="form-control-label"
 						control={
 							<Switch
 								id="bet-boosted"
