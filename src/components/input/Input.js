@@ -207,7 +207,6 @@ export default class Input extends Component {
 										fontFamily: 'monospace'
 									}
 								}}
-								size="small"
 								onChange={this.handleChange}
 								maxLength="8"
 							/>
