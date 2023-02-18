@@ -7,26 +7,28 @@ import "./Input.css";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-const textFieldStyles = {
-	notchedOutline: {
-		border: "2px solid",
-		borderColor: "white",
-	},
-	focusedNotchedOutline: {
-		borderColor: "#38ef7d",
-		color: "red",
-	},
-	inputLabel: {
-		color: 'white',
-		'&.Mui-focused': {
-			color: '#38ef7d',
+const styles = {
+	textField: {
+		notchedOutline: {
+			border: "2px solid",
+			borderColor: "white",
+		},
+		focusedNotchedOutline: {
+			borderColor: "#38ef7d",
+			color: "red",
+		},
+		inputLabel: {
+			color: 'white',
+			'&.Mui-focused': {
+				color: '#38ef7d',
+			}
+		},
+		inputBase: {
+			color: 'white',
+		},
+		notchedOutlineHover: {
+			borderColor: "#38ef7d",
 		}
-	},
-	inputBase: {
-		color: 'white',
-	},
-	notchedOutlineHover: {
-		borderColor: "#38ef7d",
 	}
 };
 
@@ -192,11 +194,16 @@ export default class Input extends Component {
 								id={input.id}
 								label={input.title}
 								sx={{
-									'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': textFieldStyles.notchedOutline,
-									'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': textFieldStyles.focusedNotchedOutline,
-									'& .MuiInputLabel-root': textFieldStyles.inputLabel,
-									'& .MuiInputBase-input': textFieldStyles.inputBase,
-									'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': textFieldStyles.notchedOutlineHover,
+									'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': styles.textField.notchedOutline,
+									'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': styles.textField.focusedNotchedOutline,
+									'& .MuiInputLabel-root': styles.textField.inputLabel,
+									'& .MuiInputBase-input': styles.textField.inputBase,
+									'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': styles.textField.notchedOutlineHover,
+								}}
+								inputProps={{ 
+									style: { 
+										textAlign: 'center',
+									}
 								}}
 								size="small"
 								onChange={this.handleChange}
