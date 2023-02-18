@@ -6,7 +6,7 @@ table {
   font-family: monospace, Arial, Helvetica, sans-serif;
   text-align: center;
 
-  overflow: hidden;
+  /*overflow: hidden;*/
 
 }
 
