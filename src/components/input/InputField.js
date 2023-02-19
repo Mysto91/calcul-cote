@@ -8,7 +8,6 @@ const styles = {
     },
     focusedNotchedOutline: {
         borderColor: "#38ef7d",
-        color: "red",
     },
     inputLabel: {
         fontFamily: 'monospace',
@@ -45,6 +44,7 @@ export default function InputField({ input, onChange }) {
             }}
             onChange={() => onChange(input)}
             maxLength="8"
+            defaultValue={ input.defaultValue ?? null }
         />
     )
 }

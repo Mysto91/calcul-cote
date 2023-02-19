@@ -13,7 +13,7 @@ export default class Input extends Component {
 		super(props);
 
 		this.state = {
-			betValue: null,
+			betValue: 10,
 			quotationOne: null,
 			quotationTwo: null,
 			oneTwoNoBet: new Bet("1r2"),
@@ -117,6 +117,7 @@ export default class Input extends Component {
 			{
 				id: "bet",
 				title: `Mise ${state.betBoosted ? 'cote boostée' : 'totale'}`,
+				defaultValue: 10,
 			},
 			{
 				id: "quotation-1",
