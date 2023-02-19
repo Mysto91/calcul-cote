@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as yup from 'yup';
 import Bet from "../../class/Bet";
 import { calculateNoBet, calculateOneOrTwo, float, isNumber } from "../../util/Calcul";
 import BetTable from "../betTable/BetTable";
@@ -17,7 +18,8 @@ export default class Input extends Component {
 			oneTwoNoBet: new Bet("1r2"),
 			twoOneNoBet: new Bet("2r1"),
 			oneOrTwo: new Bet("1|2"),
-			betBoosted: true
+			betBoosted: true,
+			isValid: true,
 		};
 	}
 
@@ -65,54 +67,59 @@ export default class Input extends Component {
 		}
 	}
 
-	isValidInputs = () => {
-		const state = this.state;
-		//TO DO : remplacer par yup validation
-		if (
-			!isNumber(state.quotationOne) ||
-			!isNumber(state.quotationTwo) ||
-			state.quotationOne === 0 ||
-			state.quotationTwo === 0 ||
-			state.quotationTwo === 1
-		) {
-			return false;
-		}
-
-		const betValue = state.betValue;
-
-		if (!state.betBoosted && (!isNumber(betValue) || betValue === 0)) {
-			return false
-		}
-
-		return true;
-	}
-
 	updateResult = () => {
 		const state = this.state;
 
-		if (!this.isValidInputs()) {
-			return;
-		}
+		const schema = yup.object().shape({
+			quotationOne: yup
+				.number()
+				.test('notZero', 'La cote 1 ne doit pas être égale à 0', (value) => value !== 0)
+				.required(),
+			quotationTwo: yup
+				.number()
+				.test('notZero', 'La cote 2 ne doit pas être égale à 0', (value) => value !== 0)
+				.test('notOne', 'La cote 2 ne doit pas être égale à 1', (value) => value !== 1)
+				.required(),
+			betValue: yup
+				.number()
+				.test(
+					'notZeroIfBetBoosted',
+					"La mise doit être renseignée si ce n'est pas une GCB",
+					(value) => {
+						if (state.betBoosted) {
+							return true;
+						}
 
-		const mise = state.betValue;
-		const quotationOne = state.quotationOne;
-		const quotationTwo = state.quotationTwo;
-		const betBoosted = state.betBoosted;
-
-		this.setState({
-			oneTwoNoBet: this.updateBet(
-				state.oneTwoNoBet.title,
-				calculateNoBet(mise, quotationOne, quotationTwo, betBoosted)
-			),
-			twoOneNoBet: this.updateBet(
-				state.twoOneNoBet.title,
-				calculateNoBet(mise, quotationTwo, quotationOne, betBoosted, true)
-			),
-			oneOrTwo: this.updateBet(
-				state.oneOrTwo.title,
-				calculateOneOrTwo(mise, quotationOne, quotationTwo, betBoosted)
-			),
+						return value !== 0;
+					}
+				),
 		});
+
+		schema.validate(state)
+			.then(() => {
+				const mise = state.betValue;
+				const quotationOne = state.quotationOne;
+				const quotationTwo = state.quotationTwo;
+				const betBoosted = state.betBoosted;
+
+				this.setState({
+					oneTwoNoBet: this.updateBet(
+						state.oneTwoNoBet.title,
+						calculateNoBet(mise, quotationOne, quotationTwo, betBoosted)
+					),
+					twoOneNoBet: this.updateBet(
+						state.twoOneNoBet.title,
+						calculateNoBet(mise, quotationTwo, quotationOne, betBoosted, true)
+					),
+					oneOrTwo: this.updateBet(
+						state.oneOrTwo.title,
+						calculateOneOrTwo(mise, quotationOne, quotationTwo, betBoosted)
+					),
+				});
+			})
+			.catch(error => {
+				console.log(error);
+			})
 	};
 
 	/**
@@ -146,7 +153,6 @@ export default class Input extends Component {
 					id="form-input"
 					component="form"
 					noValidate
-					autoComplete="off"
 				>
 					{
 						inputList.map((input) => <InputField key={input.id} input={input} onChange={this.handleInputChange} />)

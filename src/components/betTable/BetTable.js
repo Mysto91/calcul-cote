@@ -4,9 +4,18 @@ import "./BetTable.css";
 
 export default class BetTable extends Component {
 	render() {
-		const { oneTwoNoBet, twoOneNoBet, oneOrTwo, betBoosted } = this.props;
+		const { 
+			oneTwoNoBet, 
+			twoOneNoBet, 
+			oneOrTwo, 
+			betBoosted 
+		} = this.props;
 
-		const betList = [oneTwoNoBet, twoOneNoBet, oneOrTwo];
+		const betList = [
+			oneTwoNoBet, 
+			twoOneNoBet, 
+			oneOrTwo
+		];
 
 		return (
 			<table className="horizontal-center">

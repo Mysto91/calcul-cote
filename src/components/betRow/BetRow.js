@@ -3,8 +3,14 @@ import ProgressBar from "../progressBar/ProgressBar";
 
 export default class BetRow extends Component {
 	render() {
-		const { title, quotation, bet1, bet2, probability, gain, gainNet } =
-			this.props;
+		const { 
+			title, 
+			quotation, 
+			bet1, bet2, 
+			probability, 
+			gain, 
+			gainNet 
+		} = this.props;
 
 		const positiveGainNet = gainNet >= 0;
 		const titleId = title.replaceAll(' ', '');
