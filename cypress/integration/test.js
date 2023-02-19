@@ -2,14 +2,15 @@ describe('Test the boosted bet', () => {
     it('Test nominal', () => {
         cy.visit(Cypress.env('host'));
 
+        cy.get('#bet').should('have.value', '10');
         cy.get('#bet-boosted').should('be.checked');
         cy.get('#form-input').contains('Mise cote boostée');
         cy.get('#form-input').contains('Cote 1 boostée');
         cy.get('#form-input').contains('Cote 2');
 
-        cy.get('#bet').type('20');
-        cy.get('#quotation-1').type('2');
-        cy.get('#quotation-2').type('2.50');
+        cy.get('#bet').clear().type('20');
+        cy.get('#quotation-1').clear().type('2');
+        cy.get('#quotation-2').clear().type('2.50');
 
         cy.get('#quotation-1r2').contains("1.20");
         cy.get('#bet1-1r2').contains("20 €");
@@ -33,9 +34,10 @@ describe('Test the boosted bet', () => {
     it('Test without specified bet', () => {
         cy.visit(Cypress.env('host'));
 
+        cy.get('#bet').should('have.value', '10');
         cy.get('#bet-boosted').should('be.checked');
-        cy.get('#quotation-1').type('2');
-        cy.get('#quotation-2').type('2.50');
+        cy.get('#quotation-1').clear().type('2');
+        cy.get('#quotation-2').clear().type('2.50');
 
         cy.get('#quotation-1r2').contains("1.20");
         cy.get('#bet1-1r2').contains("10 €");
@@ -60,9 +62,9 @@ describe('Test the boosted bet', () => {
         cy.visit(Cypress.env('host'));
 
         cy.get('#bet-boosted').should('be.checked');
-        cy.get('#bet').type('10');
-        cy.get('#quotation-1').type('2.25');
-        cy.get('#quotation-2').type('2.50');
+        cy.get('#bet').clear().type('10');
+        cy.get('#quotation-1').clear().type('2.25');
+        cy.get('#quotation-2').clear().type('2.50');
 
         cy.get('#quotation-1r2').contains("1.35");
         cy.get('#bet1-1r2').contains("10 €");
@@ -87,9 +89,9 @@ describe('Test the boosted bet', () => {
         cy.visit(Cypress.env('host'));
 
         cy.get('#bet-boosted').should('be.checked');
-        cy.get('#bet').type('10');
-        cy.get('#quotation-1').type('2.35');
-        cy.get('#quotation-2').type('2.15');
+        cy.get('#bet').clear().type('10');
+        cy.get('#quotation-1').clear().type('2.35');
+        cy.get('#quotation-2').clear().type('2.15');
 
         cy.get('#quotation-1r2').contains("1.26");
         cy.get('#bet1-1r2').contains("10 €");
@@ -123,9 +125,9 @@ describe('Test the basic bet', () => {
         cy.get('#form-input').contains('Cote 1');
         cy.get('#form-input').contains('Cote 2');
 
-        cy.get('#bet').type('10');
-        cy.get('#quotation-1').type('2.30');
-        cy.get('#quotation-2').type('2.25');
+        cy.get('#bet').clear().type('10');
+        cy.get('#quotation-1').clear().type('2.30');
+        cy.get('#quotation-2').clear().type('2.25');
 
         cy.get('#quotation-1r2').contains("1.28");
         cy.get('#bet1-1r2').contains("5.56 €");
@@ -153,9 +155,9 @@ describe('Test the basic bet', () => {
             .should('be.checked')
             .click({ force: true });
 
-        cy.get('#bet').type('10');
-        cy.get('#quotation-1').type('2.10');
-        cy.get('#quotation-2').type('2.10');
+        cy.get('#bet').clear().type('10');
+        cy.get('#quotation-1').clear().type('2.10');
+        cy.get('#quotation-2').clear().type('2.10');
 
         cy.get('#quotation-1r2').contains("1.10");
         cy.get('#bet1-1r2').contains("5.24 €");
