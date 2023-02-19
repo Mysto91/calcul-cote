@@ -1,37 +1,11 @@
-import { FormControlLabel, Switch } from "@mui/material";
 import React, { Component } from "react";
 import Bet from "../../class/Bet";
 import { calculateNoBet, calculateOneOrTwo, float, isNumber } from "../../util/Calcul";
 import BetTable from "../betTable/BetTable";
 import "./Input.css";
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-
-const styles = {
-	textField: {
-		notchedOutline: {
-			border: "2px solid",
-			borderColor: "white",
-		},
-		focusedNotchedOutline: {
-			borderColor: "#38ef7d",
-			color: "red",
-		},
-		inputLabel: {
-			fontFamily: 'monospace',
-			color: 'white',
-			'&.Mui-focused': {
-				color: '#38ef7d',
-			}
-		},
-		inputBase: {
-			color: 'white',
-		},
-		notchedOutlineHover: {
-			borderColor: "#38ef7d",
-		}
-	}
-};
+import InputField from "./InputField";
+import SwitchField from "./SwitchField";
 
 export default class Input extends Component {
 	constructor(props) {
@@ -40,44 +14,27 @@ export default class Input extends Component {
 			betValue: null,
 			quotationOne: null,
 			quotationTwo: null,
-			oneTwoNoBet: new Bet("1 R 2"),
-			twoOneNoBet: new Bet("2 R 1"),
-			oneOrTwo: new Bet("1 ou 2"),
+			oneTwoNoBet: new Bet("1r2"),
+			twoOneNoBet: new Bet("2r1"),
+			oneOrTwo: new Bet("1|2"),
 			betBoosted: true
 		};
 	}
 
-	handleChange = (event) => {
-		const target = event.target;
-		let value = null;
-
-		switch (target.type) {
-			case 'text':
-				value = float(target.value);
-				break;
-			case 'checkbox':
-				value = target.checked;
-				break;
-			default:
-				break;
-		}
-
-		const elementId = event.target.id;
+	handleInputChange = (input) => {
+		const value = float(document.getElementById(input.id).value);
 
 		let state = {};
 
-		switch (elementId) {
-			case "quotation-1":
+		switch (input.id) {
+			case 'quotation-1':
 				state = { quotationOne: value };
 				break;
-			case "quotation-2":
+			case 'quotation-2':
 				state = { quotationTwo: value };
 				break;
-			case "bet":
+			case 'bet':
 				state = { betValue: value };
-				break;
-			case "bet-boosted":
-				state = { betBoosted: value };
 				break;
 			default:
 				break;
@@ -85,6 +42,8 @@ export default class Input extends Component {
 
 		this.setState(state);
 	};
+
+	handleSwitchChange = (id) => this.setState({ betBoosted: document.getElementById(id).checked });
 
 	componentDidUpdate(prevProps, prevState) {
 		const state = this.state;
@@ -108,6 +67,7 @@ export default class Input extends Component {
 
 	isValidInputs = () => {
 		const state = this.state;
+		//TO DO : remplacer par yup validation
 		if (
 			!isNumber(state.quotationOne) ||
 			!isNumber(state.quotationTwo) ||
@@ -188,54 +148,12 @@ export default class Input extends Component {
 					noValidate
 					autoComplete="off"
 				>
-					{inputList.map((input) => {
-						return (
-							<TextField
-								key={input.id}
-								id={input.id}
-								label={input.title}
-								sx={{
-									'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': styles.textField.notchedOutline,
-									'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': styles.textField.focusedNotchedOutline,
-									'& .MuiInputLabel-root': styles.textField.inputLabel,
-									'& .MuiInputBase-input': styles.textField.inputBase,
-									'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': styles.textField.notchedOutlineHover,
-								}}
-								inputProps={{ 
-									style: { 
-										textAlign: 'center',
-										fontFamily: 'monospace'
-									}
-								}}
-								onChange={this.handleChange}
-								maxLength="8"
-							/>
-						);
-					})}
-					<FormControlLabel
-						className="form-control-label"
-						control={
-							<Switch
-								id="bet-boosted"
-								sx={{
-									'& .MuiSwitch-switchBase.Mui-checked': {
-										color: 'white',
-										'&hover': {
-											backgroundColor: 'white'
-										}
-									},
-									'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-										backgroundColor: 'white',
-									},
-								}}
-								onChange={this.handleChange}
-								defaultChecked
-							/>
-						}
-						label="Cote boostée"
-					/>
+					{
+						inputList.map((input) => <InputField key={input.id} input={input} onChange={this.handleInputChange} />)
+					}
+					<SwitchField id="bet-boosted" label="Cote boostée" onChange={this.handleSwitchChange} />
 				</Box>
-				<BetTable {...state}></BetTable>
+				<BetTable {...state} />
 			</div>
 		);
 	}
