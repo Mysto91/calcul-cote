@@ -1,55 +1,43 @@
-import { FormControlLabel, Switch } from "@mui/material";
 import React, { Component } from "react";
-import Bet from "../../class/Bet";
 import { calculateNoBet, calculateOneOrTwo, float, isNumber } from "../../util/Calcul";
-import BetTable from "../betTable/BetTable";
 import "./Input.css";
+import Bet from "../../class/Bet";
+import BetTable from "../betTable/BetTable";
+import Box from '@mui/material/Box';
+import InputField from "./InputField";
+import SwitchField from "./SwitchField";
+import inputSchema from "../../validators/schemas/InputSchema";
 
 export default class Input extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			betValue: null,
 			quotationOne: null,
 			quotationTwo: null,
-			oneTwoNoBet: new Bet("1 R 2"),
-			twoOneNoBet: new Bet("2 R 1"),
-			oneOrTwo: new Bet("1 ou 2"),
-			betBoosted: true
+			oneTwoNoBet: new Bet("1r2"),
+			twoOneNoBet: new Bet("2r1"),
+			oneOrTwo: new Bet("1ou2"),
+			betBoosted: true,
+			isValid: true,
 		};
 	}
 
-	handleChange = (event) => {
-		const target = event.target;
-		let value = null;
-
-		switch (target.type) {
-			case 'text':
-				value = float(target.value);
-				break;
-			case 'checkbox':
-				value = target.checked;
-				break;
-			default:
-				break;
-		}
-
-		const elementId = event.target.id;
+	handleInputChange = (input) => {
+		const value = float(document.getElementById(input.id).value);
 
 		let state = {};
 
-		switch (elementId) {
-			case "quotation-1":
+		switch (input.id) {
+			case 'quotation-1':
 				state = { quotationOne: value };
 				break;
-			case "quotation-2":
+			case 'quotation-2':
 				state = { quotationTwo: value };
 				break;
-			case "bet":
+			case 'bet':
 				state = { betValue: value };
-				break;
-			case "bet-boosted":
-				state = { betBoosted: value };
 				break;
 			default:
 				break;
@@ -57,6 +45,8 @@ export default class Input extends Component {
 
 		this.setState(state);
 	};
+
+	handleSwitchChange = (id) => this.setState({ betBoosted: document.getElementById(id).checked });
 
 	componentDidUpdate(prevProps, prevState) {
 		const state = this.state;
@@ -78,53 +68,39 @@ export default class Input extends Component {
 		}
 	}
 
-	isValidInputs = () => {
-		const state = this.state;
-		if (
-			!isNumber(state.quotationOne) ||
-			!isNumber(state.quotationTwo) ||
-			state.quotationOne === 0 ||
-			state.quotationTwo === 0 ||
-			state.quotationTwo === 1
-		) {
-			return false;
-		}
-
-		const betValue = state.betValue;
-
-		if (!state.betBoosted && (!isNumber(betValue) || betValue === 0)) {
-			return false
-		}
-
-		return true;
-	}
-
 	updateResult = () => {
 		const state = this.state;
 
-		if (!this.isValidInputs()) {
-			return;
-		}
+		const {
+			quotationOne,
+			quotationTwo,
+			betBoosted,
+			betValue: mise,
+		} = state;
 
-		const mise = state.betValue;
-		const quotationOne = state.quotationOne;
-		const quotationTwo = state.quotationTwo;
-		const betBoosted = state.betBoosted;
+		const schema = inputSchema(betBoosted);
 
-		this.setState({
-			oneTwoNoBet: this.updateBet(
-				state.oneTwoNoBet.title,
-				calculateNoBet(mise, quotationOne, quotationTwo, betBoosted)
-			),
-			twoOneNoBet: this.updateBet(
-				state.twoOneNoBet.title,
-				calculateNoBet(mise, quotationTwo, quotationOne, betBoosted, true)
-			),
-			oneOrTwo: this.updateBet(
-				state.oneOrTwo.title,
-				calculateOneOrTwo(mise, quotationOne, quotationTwo, betBoosted)
-			),
-		});
+		schema.validate(state)
+			.then(() => {
+				this.setState({
+					oneTwoNoBet: this.updateBet(
+						state.oneTwoNoBet.title,
+						calculateNoBet(mise, quotationOne, quotationTwo, betBoosted)
+					),
+					twoOneNoBet: this.updateBet(
+						state.twoOneNoBet.title,
+						calculateNoBet(mise, quotationTwo, quotationOne, betBoosted, true)
+					),
+					oneOrTwo: this.updateBet(
+						state.oneOrTwo.title,
+						calculateOneOrTwo(mise, quotationOne, quotationTwo, betBoosted)
+					),
+
+				});
+			})
+			.catch(error => {
+				//TO DO : gérer les erreurs
+			})
 	};
 
 	/**
@@ -154,50 +130,17 @@ export default class Input extends Component {
 
 		return (
 			<div className="vertical-center">
-				<form>
-					<div id="form-input" className="horizontal-center">
-						{inputList.map((input) => {
-							return (
-								<div key={input.id}>
-									<div className="container-label">
-										<label htmlFor={input.id} className="input-label">
-											{input.title}
-										</label>
-									</div>
-									<input
-										id={input.id}
-										type="text"
-										className="input-field"
-										onChange={this.handleChange}
-										maxLength="8"
-									/>
-								</div>
-							);
-						})}
-						<FormControlLabel
-							control={
-								<Switch
-									id="bet-boosted"
-									sx={{
-										'& .MuiSwitch-switchBase.Mui-checked': {
-											color: 'white',
-											'&hover': {
-												backgroundColor: 'white'
-											}
-										},
-										'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-											backgroundColor: 'white',
-										},
-									}}
-									onChange={this.handleChange}
-									defaultChecked
-								/>
-							}
-							label="Cote boostée"
-						/>
-					</div>
-				</form>
-				<BetTable {...state}></BetTable>
+				<Box
+					id="form-input"
+					component="form"
+					noValidate
+				>
+					{
+						inputList.map((input) => <InputField key={input.id} input={input} onChange={this.handleInputChange} />)
+					}
+					<SwitchField id="bet-boosted" label="Cote boostée" onChange={this.handleSwitchChange} />
+				</Box>
+				<BetTable {...state} />
 			</div>
 		);
 	}

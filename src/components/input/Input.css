@@ -1,57 +1,41 @@
 #form-input {
   margin-bottom: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #form-input > div {
-  display: inline-block;
-  margin-right: 10px;
+  width: 200px;
 }
 
-.input-field {
-  font-size: 18px;
-  text-align: center;
-  outline: none;
-  border-style: none;
-  border-bottom: 2px solid white;
-  border-bottom-color: white;
-  color: white;
-  background: transparent;
-  display: block;
-  height: 30px;
-  width: 150px;
+.form-control-label {
+  margin-top: 20px;
 }
 
-.input-field:focus {
-  border-image: linear-gradient(to right, #11998e, #38ef7d) 1;
-  color: #38ef7d;
+.form-control-label > span {
+    font-family: monospace;
 }
 
-.input-label {
-  font-size: 18px;
-}
+@media screen and (max-width: 1080px) {
+  #form-input {
+    flex-direction: column;
+  }
 
-@media screen and (max-width: 660px) {
   #form-input > div {
-    display: block;
-    margin-bottom: 8px;
-  }
+    margin-top: 20px;
 
-  .input-field {
-    width: 100px;
-    height: 25px;
-  }
-
-  .container-label {
-    width: 100px;
-    text-align: center;
+    width: 300px;
   }
 }
 
-@media screen and (min-width: 660px) {
-  .container-label {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+@media screen and (min-width: 1080px) {
+  #form-input {
+    flex-direction: row;
+  }
+
+  #form-input > div {
+    margin-right: 10px;
   }
 }

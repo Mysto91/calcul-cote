@@ -82,8 +82,7 @@ export const calculateOneOrTwo = (mise, q1, q2, boosted = false) => {
  *
  * @return {Number}
  */
-export const trunc = (value, digit = 2) =>
-	!isNaN(value) ? value.toFixed(digit) : value;
+export const trunc = (value, digit = 2) => !isNaN(value) && value % 1 !== 0 ? value.toFixed(digit) : value;
 
 /**
  * @param {String} value
