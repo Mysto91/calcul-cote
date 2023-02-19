@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { calculateNoBet, calculateOneOrTwo, float } from "../../util/Calcul";
+import { calculateNoBet, calculateOneOrTwo, float, isNumber } from "../../util/Calcul";
 import "./Input.css";
 import Bet from "../../class/Bet";
 import BetTable from "../betTable/BetTable";
@@ -18,7 +18,7 @@ export default class Input extends Component {
 			quotationTwo: null,
 			oneTwoNoBet: new Bet("1r2"),
 			twoOneNoBet: new Bet("2r1"),
-			oneOrTwo: new Bet("1|2"),
+			oneOrTwo: new Bet("1ou2"),
 			betBoosted: true,
 			isValid: true,
 		};
@@ -58,10 +58,10 @@ export default class Input extends Component {
 			state.betBoosted !== prevState.betBoosted
 		) {
 			this.setState({
-				betValue: isNaN(state.betValue) ? state.betValue : 0,
+				betValue: isNumber(state.betValue) ? state.betValue : 0,
 				betBoosted: state.betBoosted,
-				quotationOne: state.quotationOne,
-				quotationTwo: state.quotationTwo,
+				quotationOne: isNumber(state.quotationOne) ? state.quotationOne : 0,
+				quotationTwo: isNumber(state.quotationTwo) ? state.quotationTwo : 0,
 			});
 
 			this.updateResult();
@@ -95,6 +95,7 @@ export default class Input extends Component {
 						state.oneOrTwo.title,
 						calculateOneOrTwo(mise, quotationOne, quotationTwo, betBoosted)
 					),
+
 				});
 			})
 			.catch(error => {
