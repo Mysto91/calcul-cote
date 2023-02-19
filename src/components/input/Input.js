@@ -1,16 +1,17 @@
 import React, { Component } from "react";
-import * as yup from 'yup';
-import Bet from "../../class/Bet";
-import { calculateNoBet, calculateOneOrTwo, float, isNumber } from "../../util/Calcul";
-import BetTable from "../betTable/BetTable";
+import { calculateNoBet, calculateOneOrTwo, float } from "../../util/Calcul";
 import "./Input.css";
+import Bet from "../../class/Bet";
+import BetTable from "../betTable/BetTable";
 import Box from '@mui/material/Box';
 import InputField from "./InputField";
 import SwitchField from "./SwitchField";
+import inputSchema from "../../validators/schemas/InputSchema";
 
 export default class Input extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			betValue: null,
 			quotationOne: null,
@@ -57,10 +58,10 @@ export default class Input extends Component {
 			state.betBoosted !== prevState.betBoosted
 		) {
 			this.setState({
-				betValue: isNumber(state.betValue) ? state.betValue : 0,
+				betValue: isNaN(state.betValue) ? state.betValue : 0,
 				betBoosted: state.betBoosted,
-				quotationOne: isNumber(state.quotationOne) ? state.quotationOne : 0,
-				quotationTwo: isNumber(state.quotationTwo) ? state.quotationTwo : 0,
+				quotationOne: state.quotationOne,
+				quotationTwo: state.quotationTwo,
 			});
 
 			this.updateResult();
@@ -70,38 +71,17 @@ export default class Input extends Component {
 	updateResult = () => {
 		const state = this.state;
 
-		const schema = yup.object().shape({
-			quotationOne: yup
-				.number()
-				.test('notZero', 'La cote 1 ne doit pas être égale à 0', (value) => value !== 0)
-				.required(),
-			quotationTwo: yup
-				.number()
-				.test('notZero', 'La cote 2 ne doit pas être égale à 0', (value) => value !== 0)
-				.test('notOne', 'La cote 2 ne doit pas être égale à 1', (value) => value !== 1)
-				.required(),
-			betValue: yup
-				.number()
-				.test(
-					'notZeroIfBetBoosted',
-					"La mise doit être renseignée si ce n'est pas une GCB",
-					(value) => {
-						if (state.betBoosted) {
-							return true;
-						}
+		const {
+			quotationOne,
+			quotationTwo,
+			betBoosted,
+			betValue: mise,
+		} = state;
 
-						return value !== 0;
-					}
-				),
-		});
+		const schema = inputSchema(betBoosted);
 
 		schema.validate(state)
 			.then(() => {
-				const mise = state.betValue;
-				const quotationOne = state.quotationOne;
-				const quotationTwo = state.quotationTwo;
-				const betBoosted = state.betBoosted;
-
 				this.setState({
 					oneTwoNoBet: this.updateBet(
 						state.oneTwoNoBet.title,
@@ -118,7 +98,7 @@ export default class Input extends Component {
 				});
 			})
 			.catch(error => {
-				console.log(error);
+				//TO DO : gérer les erreurs
 			})
 	};
 

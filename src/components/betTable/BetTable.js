@@ -33,9 +33,9 @@ export default class BetTable extends Component {
 					</tr>
 				</thead>
 				<tbody>
-					{betList.map((betRow) => (
-						<BetRow key={betRow.title} {...betRow}></BetRow>
-					))}
+					{
+						betList.map((betRow) => <BetRow key={betRow.title} {...betRow}></BetRow>)
+					}
 				</tbody>
 			</table>
 		);
