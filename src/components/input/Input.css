@@ -10,10 +10,6 @@
   width: 200px;
 }
 
-.form-control-label {
-  margin-top: 20px;
-}
-
 .form-control-label > span {
     font-family: monospace;
 }
@@ -27,6 +23,10 @@
     margin-top: 20px;
 
     width: 300px;
+  }
+
+  .form-control-label {
+    margin-top: 20px;
   }
 }
 
