@@ -12,7 +12,10 @@ function handleOnClick(elementId) {
 
 function App() {
 	return (
-		<div className="App" onClick={(event) => handleOnClick(event.target.id)}>
+		<div
+			className="App"
+			onClick={(event) => handleOnClick(event.target.id)}
+		>
 			<Input />
 		</div>
 	);
